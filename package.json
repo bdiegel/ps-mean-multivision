@@ -1,0 +1,15 @@
+{
+  "name": "MultiVision",
+  "version": "0.0.0",
+  "description": "PS Tutorial on MEAN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Betty Diegel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.4.4",
+    "jade": "^1.3.1"
+  }
+}
