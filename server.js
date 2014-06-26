@@ -48,24 +48,29 @@ db.once('open', function callback() {
 	console.log('multivision db opened');
 });
 
-// define a schema 
-var messageSchema = mongoose.Schema( {message: String} );
-var Message = mongoose.model('Message', messageSchema);
-var mongoMessage;
-// retrieve a document from Mongo
-Message.findOne().exec(function(err, messageDoc) {
-	mongoMessage = messageDoc.message;
-});
+// // define a schema 
+// var messageSchema = mongoose.Schema( {message: String} );
+// var Message = mongoose.model('Message', messageSchema);
+// var mongoMessage;
+// // retrieve a document from Mongo
+// Message.findOne().exec(function(err, messageDoc) {
+// 	mongoMessage = messageDoc.message;
+// });
+
+// we outgrew this simple routing ...
+//app.get('/partials/:partialPath', function(req, res) {
+//	res.render('partials/' + req.params.partialPath);
 
 // routing for partials
-app.get('/partials/:partialPath', function(req, res) {
-  res.render('partials/' + req.params.partialPath);
+app.get('/partials/*', function(req, res) {
+  res.render('../../public/app/' + req.params[0]);
 });
 
 app.get('*', function(req, res) {
-	res.render('index', {
-		mongoMessage: mongoMessage
-	});
+	res.render('index');
+	// res.render('index', {
+	// 	mongoMessage: mongoMessage
+	// });
 });
 
 var port = process.env.PORT || 3030;
