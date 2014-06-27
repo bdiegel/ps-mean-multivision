@@ -11,6 +11,24 @@ module.exports = function(config) {
 		console.log('multivision db opened');
 	});
 
+	var userSchema = mongoose.Schema({
+		firstName: String,
+		lastName: String,
+		userName: String
+	});
+
+	var User = mongoose.model('User', userSchema);
+
+	User.find({}).exec(function(err, collection) {
+		if (collection.length === 0) {
+			User.create( { firstName: 'Bart', lasName: 'Simpson', userName: 'bart'});
+			User.create( { firstName: 'Lisa', lasName: 'Simpson', userName: 'lisa'});
+			User.create( { firstName: 'Homer', lasName: 'Simpson', userName: 'homer'});
+			User.create( { firstName: 'Marge', lasName: 'Simpson', userName: 'marge'});
+		}
+	});
+
+
 };
 
 
