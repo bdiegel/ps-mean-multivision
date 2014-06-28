@@ -21,10 +21,10 @@ module.exports = function(config) {
 
 	User.find({}).exec(function(err, collection) {
 		if (collection.length === 0) {
-			User.create( { firstName: 'Bart', lasName: 'Simpson', userName: 'bart'});
-			User.create( { firstName: 'Lisa', lasName: 'Simpson', userName: 'lisa'});
-			User.create( { firstName: 'Homer', lasName: 'Simpson', userName: 'homer'});
-			User.create( { firstName: 'Marge', lasName: 'Simpson', userName: 'marge'});
+			User.create( { firstName: 'Bart', lastName: 'Simpson', userName: 'bart'});
+			User.create( { firstName: 'Lisa', lastName: 'Simpson', userName: 'lisa'});
+			User.create( { firstName: 'Homer', lastName: 'Simpson', userName: 'homer'});
+			User.create( { firstName: 'Marge', lastName: 'Simpson', userName: 'marge'});
 		}
 	});
 
