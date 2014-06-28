@@ -1,12 +1,24 @@
-angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $http){
+angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $http, mvIdentity, mvNotifier, mvAuth){
+	$scope.identity = mvIdentity;
 	$scope.signin = function(username, password) {
-		//console.log("I'm logging in");
-		$http.post('/login', {username:username, password:password}).then(function(response){
-			if (response.data.success) {
-				console.log("I'm logging in");
+		mvAuth.authenticateUser(username, password).then(function(success) {
+
+			if (success) {
+				mvNotifier.notify('You have successfully logged in');
 			} else {
-				console.log("login failed");
+				mvNotifier.notify('Username/Password combination incorrect');
 			}
 		});
+
+		// This code was refactored into a new Service 'mvAuth' and uses a promise
+		//console.log("I'm logging in");
+		// $http.post('/login', {username:username, password:password}).then(function(response){
+		// 	if (response.data.success) {
+		// 		mvIdentity.currentUser = response.data.user;
+		// 		mvNotifier.notify('You have successfully logged in');
+		// 	} else {
+		// 		mvNotifier.notify('Username/Password combination incorrect');
+		// 	}
+		// });
 	};
 });
