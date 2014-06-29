@@ -1,7 +1,23 @@
-var auth = require('./auth');
+var auth = require('./auth'),
+	mongoose = require('mongoose'),
+	User = mongoose.model('User');
 
 
 module.exports = function(app) {
+
+	// Rest endpoint to list all Users
+	app.get('/api/users', 
+
+		// express will invoke this function
+		auth.requiresRole('admin'),
+
+		// only gets called if previous function succeeds
+		function(req, res) {
+			User.find({}).exec(function(err, collection) {
+				res.send(collection);
+			});
+		}
+	);
 
 	// routing for partials
 	app.get('/partials/*', function(req, res) {
