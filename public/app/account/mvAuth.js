@@ -1,15 +1,16 @@
-angular.module('app').factory('mvAuth', function($http, mvIdentity, $q){
+angular.module('app').factory('mvAuth', function($http, mvIdentity, $q, mvUser){
 	return {
 		authenticateUser: function(username, password) {
 			// create (and return) a promise
 			var dfd = $q.defer();
 			$http.post('/login', {username:username, password:password}).then(function(response){
 				if (response.data.success) {
-					mvIdentity.currentUser = response.data.user;
-					//mvNotifier.notify('You have successfully logged in');
+					var user = new mvUser();
+					angular.extend(user, response.data.user);
+					mvIdentity.currentUser = user;
+					//mvIdentity.currentUser = response.data.user;
 					dfd.resolve(true);
 				} else {
-					//mvNotifier.notify('Username/Password combination incorrect');
 					dfd.resolve(false);
 				}
 			});
