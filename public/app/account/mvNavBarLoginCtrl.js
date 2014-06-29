@@ -1,4 +1,4 @@
-angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $http, mvIdentity, mvNotifier, mvAuth){
+angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $http, mvIdentity, mvNotifier, mvAuth, $location){
 	$scope.identity = mvIdentity;
 	$scope.signin = function(username, password) {
 		mvAuth.authenticateUser(username, password).then(function(success) {
@@ -9,6 +9,16 @@ angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $http, mv
 				mvNotifier.notify('Username/Password combination incorrect');
 			}
 		});
+
+	// clear user name and password fields on signout and redirect user to home page
+	$scope.signout = function(username, password) {
+		mvAuth.logoutUser().then(function() {
+			$scope.username = "";
+			$scope.password = "";
+			mvNotifier.notify('You have successfully signed out');
+			$location.path('/');
+		});
+	};
 
 		// This code was refactored into a new Service 'mvAuth' and uses a promise
 		//console.log("I'm logging in");
