@@ -1,59 +1,16 @@
-var express = require('express'),
-	mongoose = require('mongoose'),
-	passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
+var express = require('express');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var app = express();
 
-
-
 var config = require('./server/config/config')[env];
 require('./server/config/express')(app, config);
 require('./server/config/mongoose')(config);
+require('./server/config/passport')();
 
-// has to be before routes
-// app.use(function(req,res, next) {
-// 	console.log(req.user);
-// 	next();
-// });
-
+// Route configuration should be near the end and any middleware should come before
 require('./server/config/routes')(app);
-
-var User = mongoose.model('User');
-passport.use(new LocalStrategy(
-	function(username, password, done){
-		User.findOne( {userName:username} ).exec(function(err, user) {
-			if (user && user.authenticate(password)) {
-				return done(null, user);
-			} else {
-				return done(null, false);
-			}
- 		});
-	}
-));
-
-// tell passort how to serialize a User
-passport.serializeUser(function(user, done){
-	if(user) {
-		done(null, user._id);
-	}
-});
-
-// tell passort how to deserialize a User
-passport.deserializeUser(function(id, done){
-	User.findOne( { _id:id} ).exec(function(err, user) {
-		if (user) {
-			return done(null, user);
-		} else {
-			return done(null, false);
-		}
-	});
-});
-
-
-
 
 app.listen(config.port);
 console.log('Listening on port ' + config.port + '...');
